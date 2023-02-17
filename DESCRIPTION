@@ -12,3 +12,5 @@ LazyData: true
 RoxygenNote: 7.2.3
 Imports: 
     plotly
+URL: https://github.com/bluefoxr/iCOINr
+BugReports: https://github.com/bluefoxr/iCOINr/issues
