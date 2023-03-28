@@ -76,7 +76,7 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
     }
 
     # get data
-    iData_ch <- get_data(coin, dset = dset, iCodes = iCodes_ch)
+    iData_ch <- COINr::get_data(coin, dset = dset, iCodes = iCodes_ch)
 
     # merge onto iData
     iData <- merge(iData, iData_ch, by = "uCode")
