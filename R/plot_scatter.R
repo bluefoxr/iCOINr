@@ -9,14 +9,17 @@
 #' @param iCodes Character vector with codes of one or two indicators
 #' @param Levels Numeric vector with one or two levels
 #' @param axes_label Either `"iName"` or `"iCode"`
+#' @param log_axes 2-length logical vector specifying log (TRUE) for x and y axes respectively
 #'
 #' @return Plotly object
 #' @export
-iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName"){
+iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log_axes = c(FALSE, FALSE)){
 
   stopifnot(COINr::is.coin(coin),
             length(dsets) %in% 1:2,
-            length(iCodes) %in% 1:2)
+            length(iCodes) %in% 1:2,
+            is.logical(log_axes),
+            length(log_axes) == 2)
 
   # If only one dset specified, use this for both indicators
   if(length(dsets)==1){dsets <- rep(dsets, 2)}
@@ -26,6 +29,11 @@ iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName"){
 
   # if only one aglev specified, use for both
   if(length(Levels)==1){Levels <- rep(Levels, 2)}
+
+  # axis types
+  xaxis_type <- if(log_axes[1]) "log" else "linear"
+  yaxis_type <- if(log_axes[2]) "log" else "linear"
+
 
   # get data
   iData1 <- COINr::get_data(coin, dset = dsets[1], iCodes = iCodes[1], Level = Levels[1], also_get = "uName")
@@ -48,11 +56,11 @@ iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName"){
       y = ~get(iCodes[2]),
       text = ~uName,
       hoverinfo = 'text',
-      marker = list(size = 15),
+      marker = list(size = 12, color = "rgba(10,77,104,0.5)"),
       showlegend = F
     ) |>
-    plotly::layout(xaxis = list(title = xlab),
-                   yaxis = list(title = ylab))
+    plotly::layout(xaxis = list(title = xlab, type = xaxis_type),
+                   yaxis = list(title = ylab, type = yaxis_type))
 
   fig
 

@@ -4,7 +4,14 @@
 \alias{iplot_scatter}
 \title{Scatter plot}
 \usage{
-iplot_scatter(coin, dsets, iCodes, Levels, axes_label = "iName")
+iplot_scatter(
+  coin,
+  dsets,
+  iCodes,
+  Levels,
+  axes_label = "iName",
+  log_axes = c(FALSE, FALSE)
+)
 }
 \arguments{
 \item{coin}{A coin}
@@ -16,6 +23,8 @@ iplot_scatter(coin, dsets, iCodes, Levels, axes_label = "iName")
 \item{Levels}{Numeric vector with one or two levels}
 
 \item{axes_label}{Either `"iName"` or `"iCode"`}
+
+\item{log_axes}{2-length logical vector specifying log (TRUE) for x and y axes respectively}
 }
 \value{
 Plotly object

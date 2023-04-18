@@ -2,7 +2,7 @@
 #'
 #' Generates an interactive bar chart.
 #'
-#' @param COIN The COIN object, or a data frame of indicator data.
+#' @param coin The coin object
 #' @param dset The data set to plot.
 #' @param iCode The selected indicator code or aggregate (does not support multiple indicators)
 #' @param usel A character vector of unit codes to highlight on the bar chart (optional)
@@ -76,7 +76,7 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
     }
 
     # get data
-    iData_ch <- get_data(coin, dset = dset, iCodes = iCodes_ch)
+    iData_ch <- COINr::get_data(coin, dset = dset, iCodes = iCodes_ch)
 
     # merge onto iData
     iData <- merge(iData, iData_ch, by = "uCode")
@@ -192,7 +192,7 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
 
     # get names
     if(ilabs == "iName"){
-      iName <- COINr::icodes_to_inames(coin, iCodes)
+      iName <- COINr::icodes_to_inames(coin, iCode)
     } else {
       iName <- iCode
     }

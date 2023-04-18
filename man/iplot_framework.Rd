@@ -7,11 +7,11 @@
 iplot_framework(coin, seg_cols = NULL)
 }
 \arguments{
+\item{coin}{The coin object}
+
 \item{seg_cols}{A character vector of colour codes, one for each segment in the plot. The length of this
 vector must be equal to the number of segments, i.e. the sum of the number of indicators and aggregates
 in each level.}
-
-\item{COIN}{COIN object, or list with first entry is the indicator metadata, second entry is the aggregation metadata}
 }
 \description{
 Plots the structure of the index using a sunburst plot with **plotly**.
