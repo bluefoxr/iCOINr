@@ -5,7 +5,7 @@ Version: 0.2.0
 Author: William Becker
 Maintainer: William Becker <william.becker@bluefoxdata.eu>
 Description: An extension package for the COINr package, a collection of handy interactive plots for HTML documents.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
