@@ -22,7 +22,8 @@ iplot_scatter(
 
 \item{Levels}{Numeric vector with one or two levels}
 
-\item{axes_label}{Either `"iName"` or `"iCode"`}
+\item{axes_label}{Either `"iName"` or `"iCode"`, optionally appended with `"+dset"` to additionally
+write the data set name on the axis labels.}
 
 \item{log_axes}{2-length logical vector specifying log (TRUE) for x and y axes respectively}
 }
