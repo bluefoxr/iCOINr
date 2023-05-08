@@ -71,5 +71,5 @@ iplot_corr <- function(coin, dset, iCodes = NULL, Levels = 1, cortype = "pearson
     use_directions = use_directions
   )
 
-  plotly::ggplotly(plt)
+  plotly::ggplotly(plt, tooltip = c("Var1", "Var2", "Correlation"))
 }
