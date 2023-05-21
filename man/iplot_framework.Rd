@@ -4,14 +4,13 @@
 \alias{iplot_framework}
 \title{Interactive sunburst plot of index structure}
 \usage{
-iplot_framework(coin, seg_cols = NULL)
+iplot_framework(coin, plotly_colorway = NULL)
 }
 \arguments{
 \item{coin}{The coin object}
 
-\item{seg_cols}{A character vector of colour codes, one for each segment in the plot. The length of this
-vector must be equal to the number of segments, i.e. the sum of the number of indicators and aggregates
-in each level.}
+\item{plotly_colorway}{Optional character vector of colour codes. This is passed to
+plotly's "colorway" parameter, and specifies the main colours to use in the chart.}
 }
 \description{
 Plots the structure of the index using a sunburst plot with **plotly**.
