@@ -11,6 +11,8 @@
 #' @param ulabs Tick labels to display on x axis: either `"uCode"` or `"uName"`.
 #' @param ilabs if `"iName"`, displays axis and legend using indicator names, else if `"iCode"`, uses codes.
 #' @param orientation Controls the orientation of the plot: either `"horizontal"` or `"vertical"`.
+#' @param plot_subset Optional number to plot top or bottom-scoring subset of units. Set to a positive integer (e.g. 10)
+#' to plot the top 10, or a negative integer to plot the bottom (e.g. -20 plots the bottom 20).
 #'
 #' @examples
 #' #
@@ -20,7 +22,8 @@
 #' @export
 
 iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
-                     stack_children = FALSE, ulabs = "uCode", ilabs = "iCode", orientation = "horizontal"){
+                     stack_children = FALSE, ulabs = "uCode", ilabs = "iCode",
+                     orientation = "horizontal", plot_subset = NULL){
 
   # PREP ----
 
@@ -83,6 +86,22 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
 
     # sort
     iData <- iData[order(iData[[iCode]], decreasing = decreasing),]
+
+    # filter
+    if(!is.null(plot_subset)){
+
+      stopifnot(is.numeric(plot_subset),
+                length(plot_subset) == 1)
+
+      if(plot_subset > 0){
+        iData <- iData[1:plot_subset, ]
+      } else {
+        # negative value mean bottom N
+        plot_subset <- -1*plot_subset
+        iData <- iData[(nrow(iData) - plot_subset + 1):nrow(iData), ]
+      }
+    }
+
     # copy for later (hover text)
     iData0 <- iData
 
