@@ -203,6 +203,21 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
     # sort
     iData <- iData[order(iData[[iCode]], decreasing = decreasing),]
 
+    # filter
+    if(!is.null(plot_subset)){
+
+      stopifnot(is.numeric(plot_subset),
+                length(plot_subset) == 1)
+
+      if(plot_subset > 0){
+        iData <- iData[1:plot_subset, ]
+      } else {
+        # negative value mean bottom N
+        plot_subset <- -1*plot_subset
+        iData <- iData[(nrow(iData) - plot_subset + 1):nrow(iData), ]
+      }
+    }
+
     # highlighting
     if(!is.null(usel)){
       opacity <- rep(0.5, nrow(iData))
