@@ -11,10 +11,13 @@
 #' @param axes_label Either `"iName"` or `"iCode"`, optionally appended with `"+dset"` to additionally
 #' write the data set name on the axis labels.
 #' @param log_axes 2-length logical vector specifying log (TRUE) for x and y axes respectively
+#' @param trendline Logical: if `TRUE` adds a trendline which is calculated based on the specifications of
+#' `log_axes`. E.g. if the x axis is log-transformed, will regress y on log(x).
 #'
 #' @return Plotly object
 #' @export
-iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log_axes = c(FALSE, FALSE)){
+iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log_axes = c(FALSE, FALSE),
+                          trendline = FALSE){
 
   stopifnot(COINr::is.coin(coin),
             length(dsets) %in% 1:2,
@@ -70,9 +73,44 @@ iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log
       hoverinfo = 'text',
       marker = list(size = 12, color = "rgba(10,77,104,0.5)"),
       showlegend = F
-    ) |>
-    plotly::layout(xaxis = list(title = xlab, type = xaxis_type),
-                   yaxis = list(title = ylab, type = yaxis_type))
+    )
+
+  if (trendline){
+
+    y <- iData[[4]]
+    x <- iData[[3]]
+
+    logy <- FALSE
+    if(all(log_axes)){
+      y <- log(y)
+      logy <- TRUE
+      lfit <- stats::lm(y ~ log(x))
+    } else if (all(!log_axes)){
+      lfit <- stats::lm(y ~ x)
+    } else if (log_axes[1]){
+      lfit <- stats::lm(y ~ log(x))
+    } else {
+      y <- log(y)
+      logy <- TRUE
+      lfit <- stats::lm(y ~ x)
+    }
+
+    if(logy){
+      fig <- plotly::add_lines(fig, x = iData[[3]], y = exp(stats::predict(lfit)), name = "Trend")
+    } else {
+      fig <- plotly::add_lines(fig, x = iData[[3]], y = stats::predict(lfit), name = "Trend")
+    }
+
+
+  }
+
+
+  fig <- plotly::layout(
+    fig,
+    showlegend = FALSE,
+    xaxis = list(title = xlab, type = xaxis_type),
+    yaxis = list(title = ylab, type = yaxis_type))
+
 
   fig
 

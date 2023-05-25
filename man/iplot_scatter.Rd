@@ -10,7 +10,8 @@ iplot_scatter(
   iCodes,
   Levels,
   axes_label = "iName",
-  log_axes = c(FALSE, FALSE)
+  log_axes = c(FALSE, FALSE),
+  trendline = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ iplot_scatter(
 write the data set name on the axis labels.}
 
 \item{log_axes}{2-length logical vector specifying log (TRUE) for x and y axes respectively}
+
+\item{trendline}{Logical: if `TRUE` adds a trendline which is calculated based on the specifications of
+`log_axes`. E.g. if the x axis is log-transformed, will regress y on log(x).}
 }
 \value{
 Plotly object

@@ -1,7 +1,7 @@
 Package: iCOINr
 Type: Package
 Title: Interactive plots for COINr
-Version: 0.2.4
+Version: 0.2.5
 Author: William Becker
 Maintainer: William Becker <william.becker@bluefoxdata.eu>
 Description: An extension package for the COINr package, a collection of handy interactive plots for HTML documents.
@@ -12,6 +12,7 @@ RoxygenNote: 7.2.3
 Imports: 
     COINr,
     plotly,
-    rlang
+    rlang,
+    stats
 URL: https://github.com/bluefoxr/iCOINr
 BugReports: https://github.com/bluefoxr/iCOINr/issues
