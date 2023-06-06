@@ -52,6 +52,9 @@ iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log
   # merge data
   iData <- merge(iData1, iData2, by = c("uCode", "uName"))
 
+  # remove any rows with NAs, which we can't plot anyway
+  iData <- stats::na.omit(iData)
+
   xlab <- iCodes[1]
   ylab <- iCodes[2]
 
@@ -65,17 +68,37 @@ iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log
     ylab <- add_dset_name(ylab, dsets[2])
   }
 
+  htext <- paste0("<b>", iData$uName, "</b><br>",
+                  iCodes[1], ": ", signif(iData[[3]], 5), "<br>",
+                  iCodes[2], ": ", signif(iData[[4]], 5))
+
   fig <- plotly::plot_ly(data = iData, type = 'scatter', mode = 'markers') |>
     plotly::add_trace(
       x = ~get(names(iData)[3]),
       y = ~get(names(iData)[4]),
-      text = ~uName,
+      text = htext,
       hoverinfo = 'text',
       marker = list(size = 12, color = "rgba(10,77,104,0.5)"),
       showlegend = F
     )
 
-  if (trendline){
+  if(nrow(iData) < 2){
+    trendline <- FALSE
+    warning("Cannot plot trend line because less than two data points.")
+  }
+
+  # TODO remove zeros and negative values for log axes!
+
+  if (trendline) {
+
+    # remove zeros for log - replace with NA then remove rows
+    if(log_axes[1]){
+      iData[iData[[3]] <= 0, 3] <- NA
+    }
+    if(log_axes[2]){
+      iData[iData[[4]] <= 0, 4] <- NA
+    }
+    iData <- stats::na.omit(iData)
 
     y <- iData[[4]]
     x <- iData[[3]]
