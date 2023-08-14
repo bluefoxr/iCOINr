@@ -13,6 +13,7 @@
 #' @param orientation Controls the orientation of the plot: either `"horizontal"` or `"vertical"`.
 #' @param plot_subset Optional number to plot top or bottom-scoring subset of units. Set to a positive integer (e.g. 10)
 #' to plot the top 10, or a negative integer to plot the bottom (e.g. -20 plots the bottom 20).
+#' @param trunc_ulabs Logical: if `TRUE` truncates unit labels using [truncate_strings()].
 #'
 #' @examples
 #' #
@@ -23,7 +24,7 @@
 
 iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
                      stack_children = FALSE, ulabs = "uCode", ilabs = "iCode",
-                     orientation = "horizontal", plot_subset = NULL){
+                     orientation = "horizontal", plot_subset = NULL, trunc_ulabs = FALSE){
 
   # PREP ----
 
@@ -124,6 +125,11 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
     if(!is.null(usel)){
       opacity <- rep(0.5, nrow(iData))
       opacity[iData$uCode %in% usel] <- 1
+    }
+
+    # name truncation
+    if(trunc_ulabs){
+      iData[[ulabs]] <- truncate_strings(iData[[ulabs]])
     }
 
     if(orientation == "vertical"){
@@ -229,6 +235,11 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
       iName <- COINr::icodes_to_inames(coin, iCode)
     } else {
       iName <- iCode
+    }
+
+    # name truncation
+    if(trunc_ulabs){
+      iData[[ulabs]] <- truncate_strings(iData[[ulabs]])
     }
 
     # hover text
