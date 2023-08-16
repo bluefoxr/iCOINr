@@ -4,7 +4,7 @@
 \alias{truncate_strings}
 \title{Truncate a character vector}
 \usage{
-truncate_strings(x, maxtot = 15, maxword = 4, at_end = "...")
+truncate_strings(x, maxtot = 15, maxword = 4, at_end = "")
 }
 \arguments{
 \item{x}{Character vector}

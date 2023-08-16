@@ -18,7 +18,7 @@ add_dset_name <- function(base_string, dset){
 #' @return Truncated character vector
 #' @export
 #'
-truncate_strings <- function(x, maxtot = 15, maxword = 4, at_end = "..."){
+truncate_strings <- function(x, maxtot = 15, maxword = 4, at_end = ""){
   stopifnot(is.character(x))
 
   # find strings that need truncation
