@@ -52,6 +52,7 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
     decreasing <- FALSE
     xtitle <- axtitle
     ytitle <- ""
+    plot_subset <- -1*plot_subset # has to be flipped due to vertical ordering
   } else if (orientation == "horizontal"){
     decreasing <- TRUE
     ytitle <- axtitle
