@@ -11,7 +11,8 @@ iplot_scatter(
   Levels,
   axes_label = "iName",
   log_axes = c(FALSE, FALSE),
-  trendline = FALSE
+  trendline = FALSE,
+  show_details = FALSE
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ write the data set name on the axis labels.}
 
 \item{trendline}{Logical: if `TRUE` adds a trendline which is calculated based on the specifications of
 `log_axes`. E.g. if the x axis is log-transformed, will regress y on log(x).}
+
+\item{show_details}{Logical: if `TRUE` shows correlation and p-value as overlaid text on the plot.}
 }
 \value{
 Plotly object

@@ -13,11 +13,12 @@
 #' @param log_axes 2-length logical vector specifying log (TRUE) for x and y axes respectively
 #' @param trendline Logical: if `TRUE` adds a trendline which is calculated based on the specifications of
 #' `log_axes`. E.g. if the x axis is log-transformed, will regress y on log(x).
+#' @param show_details Logical: if `TRUE` shows correlation and p-value as overlaid text on the plot.
 #'
 #' @return Plotly object
 #' @export
 iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log_axes = c(FALSE, FALSE),
-                          trendline = FALSE){
+                          trendline = FALSE, show_details = FALSE){
 
   stopifnot(COINr::is.coin(coin),
             length(dsets) %in% 1:2,
@@ -133,6 +134,39 @@ iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log
     showlegend = FALSE,
     xaxis = list(title = xlab, type = xaxis_type),
     yaxis = list(title = ylab, type = yaxis_type))
+
+
+  # add some details
+  if(show_details){
+
+    x <- iData[[3]]
+    y <- iData[[4]]
+
+    c_p <- stats::cor.test(x, y, method = "pearson")
+    c_sp <- stats::cor.test(x, y, method = "spearman")
+
+    round_to <- 3
+
+    corr_p <- c_p$estimate |> round(round_to)
+    corr_sp <- c_sp$estimate |> round(round_to)
+    pv_p <- c_p$p.value |> round(round_to)
+    pv_sp <- c_sp$p.value |> round(round_to)
+
+    corr_string <- paste0("Corr: ", corr_p, " (p-val: ", pv_p, ") | Rank corr: ", corr_sp, " (p-val: ", pv_sp, ")")
+
+    fig <- plotly::layout(
+      fig,
+      title = list(
+        text = corr_string,
+        x = 1,
+        xanchor = 'right',
+        font = list(
+          color = "#696969",
+          size = 11)
+
+      )
+    )
+  }
 
 
   fig
