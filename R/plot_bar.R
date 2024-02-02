@@ -30,7 +30,6 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
 
   stopifnot(ulabs %in% c("uCode", "uName"))
 
-
   iData <- COINr::get_data(coin, dset = dset, iCodes = iCode, also_get = "uName")
 
   multiple_indicators <- ncol(iData) > 3
@@ -52,7 +51,9 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
     decreasing <- FALSE
     xtitle <- axtitle
     ytitle <- ""
-    plot_subset <- -1*plot_subset # has to be flipped due to vertical ordering
+    if(!is.null(plot_subset)){
+      plot_subset <- -1*plot_subset # has to be flipped due to vertical ordering
+    }
   } else if (orientation == "horizontal"){
     decreasing <- TRUE
     ytitle <- axtitle
