@@ -4,7 +4,14 @@
 \alias{iplot_dist}
 \title{Violin plots or histograms}
 \usage{
-iplot_dist(coin, dset = "Raw", iCode = NULL, Level = NULL, ptype = "Violin")
+iplot_dist(
+  coin,
+  dset = "Raw",
+  iCode = NULL,
+  Level = NULL,
+  ptype = "Violin",
+  colour = NULL
+)
 }
 \arguments{
 \item{coin}{The coin}
@@ -16,6 +23,8 @@ iplot_dist(coin, dset = "Raw", iCode = NULL, Level = NULL, ptype = "Violin")
 \item{Level}{Index level to target - see [COINr::get_data()]}
 
 \item{ptype}{Either `"Violin"` or `"Histogram"`.}
+
+\item{colour}{Optional to specify colour of plot}
 }
 \value{
 Plotly plot

@@ -14,6 +14,8 @@
 #' @param plot_subset Optional number to plot top or bottom-scoring subset of units. Set to a positive integer (e.g. 10)
 #' to plot the top 10, or a negative integer to plot the bottom (e.g. -20 plots the bottom 20).
 #' @param trunc_ulabs Logical: if `TRUE` truncates unit labels using [truncate_strings()].
+#' @param colour_pal Optional vector of colour codes to use for bar fill
+#' @param opacity Optional opacity to apply to all bars (value between 0 and 1)
 #'
 #' @examples
 #' #
@@ -24,7 +26,8 @@
 
 iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
                      stack_children = FALSE, ulabs = "uCode", ilabs = "iCode",
-                     orientation = "horizontal", plot_subset = NULL, trunc_ulabs = FALSE){
+                     orientation = "horizontal", plot_subset = NULL, trunc_ulabs = FALSE,
+                     colour_pal = NULL, opacity = 1){
 
   # PREP ----
 
@@ -46,6 +49,18 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
     abort("ilabs must be one of 'iCode' or 'iName'")
   }
 
+  if(is.null(colour_pal)){
+    colour_pal <- c("#6929c4", "#1192e8", "#005d5d", "#9f1853", "#fa4d56",
+                    "#570408", "#198038", "#002d9c", "#ee538b", "#b28600",
+                    "#009d9a", "#012749", "#8a3800", "#a56eff")
+  }
+
+  if(!is.null(plot_subset)){
+    if(abs(plot_subset) > nrow(iData)){
+      plot_subset <- NULL
+    }
+  }
+
   # setup some parameters based on hor/vert
   if(orientation == "vertical"){
     decreasing <- FALSE
@@ -64,7 +79,7 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
 
   # this is for highlighting selected units and will be modified later
   # if usel is not NULL
-  opacity <- 1
+  #opacity <- 1
 
   # Stacked plot ------------------------------------------------------------
 
@@ -148,7 +163,8 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
         hovertext = text_template[[1]],
         hoverinfo = 'text',
         orientation = "h",
-        marker = list(opacity = opacity)
+        marker = list(opacity = opacity,
+                      color = colour_pal[1])
       )
 
       for (ii in 2:length(iCodes_ch)){
@@ -156,7 +172,8 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
           fig,
           x = iData[[iCodes_ch[ii]]],
           name = iNames_ch[ii],
-          hovertext = text_template[[ii]]
+          hovertext = text_template[[ii]],
+          marker = list(color = colour_pal[ii])
         )
       }
 
@@ -189,7 +206,8 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
         name = iNames_ch[1],
         hovertext = text_template[[1]],
         hoverinfo = 'text',
-        marker = list(opacity = opacity)
+        marker = list(opacity = opacity,
+                      color = colour_pal[1])
       )
 
       for (ii in 2:length(iCodes_ch)){
@@ -197,7 +215,8 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
           fig,
           y = iData[[iCodes_ch[ii]]],
           name = iNames_ch[ii],
-          hovertext = text_template[[ii]]
+          hovertext = text_template[[ii]],
+          marker = list(color = colour_pal[ii])
         )
       }
 
@@ -257,7 +276,8 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
         source = 'bar_chart',
         key = ~uCode,
         type = "bar",
-        marker = list(opacity = opacity),
+        marker = list(opacity = opacity,
+                      color = colour_pal[1]),
         name = iName,
         hovertext = text_template,
         hoverinfo = 'text',
@@ -273,7 +293,8 @@ iplot_bar <- function(coin, dset = "Raw", iCode = NULL, usel = NULL,
         source = 'bar_chart',
         key = ~uCode,
         type = "bar",
-        marker = list(opacity = opacity),
+        marker = list(opacity = opacity,
+                      color = colour_pal[1]),
         name = iName,
         hovertext = text_template,
         hoverinfo = 'text'

@@ -12,7 +12,8 @@ iplot_scatter(
   axes_label = "iName",
   log_axes = c(FALSE, FALSE),
   trendline = FALSE,
-  show_details = FALSE
+  show_details = FALSE,
+  marker_colour = NULL
 )
 }
 \arguments{
@@ -33,6 +34,8 @@ write the data set name on the axis labels.}
 `log_axes`. E.g. if the x axis is log-transformed, will regress y on log(x).}
 
 \item{show_details}{Logical: if `TRUE` shows correlation and p-value as overlaid text on the plot.}
+
+\item{marker_colour}{Optional to specify the colour of the points.}
 }
 \value{
 Plotly object

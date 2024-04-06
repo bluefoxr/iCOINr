@@ -5,17 +5,22 @@
 #' @param iCode Indicator code
 #' @param Level Index level to target - see [COINr::get_data()]
 #' @param ptype Either `"Violin"` or `"Histogram"`.
+#' @param colour Optional to specify colour of plot
 #'
 #' @return Plotly plot
 #' @export
 #'
 #' @importFrom rlang abort
 #'
-iplot_dist <- function(coin, dset = "Raw", iCode = NULL, Level = NULL, ptype = "Violin"){
+iplot_dist <- function(coin, dset = "Raw", iCode = NULL, Level = NULL, ptype = "Violin", colour = NULL){
 
   iData <- COINr::get_data(coin, dset = dset, iCodes = iCode, Level = Level, also_get = "none")
   iName <- COINr::icodes_to_inames(coin, names(iData))
   iCode <- names(iData)
+
+  if(is.null(colour)){
+    colour <- "#8dd3c7"
+  }
 
   if(length(iName) > 1){
     abort("This function only supports plotting single indicators. Ensure you are not selecting multiple indicators with 'Level' argument.")
@@ -31,11 +36,11 @@ iplot_dist <- function(coin, dset = "Raw", iCode = NULL, Level = NULL, ptype = "
                            pointpos = -1.5,
                            jitter = 0.1,
                            hoveron = "points+kde",
-                           color = I("#8dd3c7"),
+                           color = I(colour),
                            marker = list(
                              line = list(
                                width = 2,
-                               color = "#8dd3c7"
+                               color = colour
                              ),
                              symbol = 'line-ew'
                            )

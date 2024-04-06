@@ -14,11 +14,12 @@
 #' @param trendline Logical: if `TRUE` adds a trendline which is calculated based on the specifications of
 #' `log_axes`. E.g. if the x axis is log-transformed, will regress y on log(x).
 #' @param show_details Logical: if `TRUE` shows correlation and p-value as overlaid text on the plot.
+#' @param marker_colour Optional to specify the colour of the points.
 #'
 #' @return Plotly object
 #' @export
 iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log_axes = c(FALSE, FALSE),
-                          trendline = FALSE, show_details = FALSE){
+                          trendline = FALSE, show_details = FALSE, marker_colour = NULL){
 
   stopifnot(COINr::is.coin(coin),
             length(dsets) %in% 1:2,
@@ -34,6 +35,10 @@ iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log
 
   # if only one aglev specified, use for both
   if(length(Levels)==1){Levels <- rep(Levels, 2)}
+
+  if(is.null(marker_colour)){
+    marker_colour <- "rgba(10,77,104,0.5)"
+  }
 
   # axis types
   xaxis_type <- if(log_axes[1]) "log" else "linear"
@@ -79,7 +84,7 @@ iplot_scatter <- function(coin, dsets, iCodes, Levels, axes_label = "iName", log
       y = ~get(names(iData)[4]),
       text = htext,
       hoverinfo = 'text',
-      marker = list(size = 12, color = "rgba(10,77,104,0.5)"),
+      marker = list(size = 12, color = marker_colour),
       showlegend = F
     )
 
